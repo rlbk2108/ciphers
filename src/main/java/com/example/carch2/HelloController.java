@@ -12,19 +12,27 @@ public class HelloController {
     @FXML
     public Spinner<Integer> shift;
     @FXML
-    public TextField textFlow1;
-    @FXML
     public ToggleGroup group;
     @FXML
     public RadioButton toLeft, toRight;
     @FXML
-    private TextArea encryptArea;
+    public Label initWordLength, keyWordLength, message;
     @FXML
-    private TextArea decryptedTextArea;
+    private TextArea encryptArea, decryptedTextArea, vegenreTextArea, vegenreKeyWord, vegenreEncrypted;
+
+    public void initialize() {
+        initWordLength.textProperty().bind(vegenreTextArea.textProperty()
+                .length()
+                .asString("%d"));
+
+        keyWordLength.textProperty().bind(vegenreKeyWord.textProperty()
+                .length()
+                .asString("%d"));
+    }
 
 
     public void showMessage() {
-        textFlow1.setText("INVALID INPUT!");
+        message.setText("INVALID INPUT!");
     }
 
     @FXML
@@ -104,6 +112,29 @@ public class HelloController {
             strBuilder.append(c);
         }
         return strBuilder.toString();
+    }
+
+    public void vegenreEncryptMethod() {
+        vegenreEncrypted.setText(vegenreEncrypt(vegenreTextArea.getText(), vegenreKeyWord.getText()));
+    }
+
+    public String vegenreEncrypt(String inputWord, String keyWord) {
+        StringBuilder encryptedWord = new StringBuilder();
+
+        char input;
+        int key;
+
+        for (int i = 0; i < inputWord.length(); i++) {
+            input = inputWord.charAt(i);
+            key = keyWord.charAt(i);
+
+            System.out.println(key);
+
+            input += key % 26;
+            System.out.println(input);
+            encryptedWord.append(input + 26);
+        }
+        return encryptedWord.toString();
     }
 
 
