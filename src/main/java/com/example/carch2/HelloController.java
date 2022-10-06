@@ -1,11 +1,8 @@
 package com.example.carch2;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Camera;
 import javafx.scene.control.*;
-import javafx.scene.text.TextFlow;
 
 
 public class HelloController {
@@ -16,7 +13,7 @@ public class HelloController {
     @FXML
     public RadioButton toLeft, toRight;
     @FXML
-    public Label initWordLength, keyWordLength, message;
+    public Label initWordLength, keyWordLength, message, vegenreMessage;
     @FXML
     private TextArea encryptArea, decryptedTextArea, vegenreTextArea, vegenreKeyWord, vegenreEncrypted;
 
@@ -31,8 +28,13 @@ public class HelloController {
     }
 
 
-    public void showMessage() {
-        message.setText("INVALID INPUT!");
+    public void showMessage(int fromWhichCipher) {
+        switch (fromWhichCipher) {
+            case 1:
+                message.setText("INVALID INPUT!");
+            case 2:
+                vegenreMessage.setText("Inputs are invalid! Try again without any digits.");
+        }
     }
 
     @FXML
@@ -40,6 +42,7 @@ public class HelloController {
         encryptArea.setText(encrypt(decryptedTextArea.getText(), shift.getValue(), toRight.isSelected()));
         decryptedTextArea.setText("");
     }
+
     @FXML
     protected void onDecryptButtonClick() {
         encryptArea.setText(decrypt(encryptArea.getText(), shift.getValue(), toRight.isSelected()));
@@ -72,10 +75,9 @@ public class HelloController {
                     c += 26;
                 }
             } else {
-                showMessage();
+                showMessage(1);
             }
             strBuilder.append(c);
-
         }
         return strBuilder.toString();
     }
@@ -120,22 +122,33 @@ public class HelloController {
 
     public String vegenreEncrypt(String inputWord, String keyWord) {
         StringBuilder encryptedWord = new StringBuilder();
+        int inputLength = inputWord.length();
+        int keyLength = keyWord.length();
 
-        char input;
-        int key;
+        int input = 0;
+        char key = 0;
 
         for (int i = 0; i < inputWord.length(); i++) {
-            input = inputWord.charAt(i);
-            key = keyWord.charAt(i);
-
-            System.out.println(key);
-
-            input += key % 26;
-            System.out.println(input);
-            encryptedWord.append(input + 26);
+            try {
+                input = inputWord.charAt(i);
+                key = (char) (keyWord.charAt(i) - 'a');
+                if (keyLength < inputLength) {
+                    keyWord = keyWord.repeat(inputLength);
+                }
+            } catch (StringIndexOutOfBoundsException r) {
+                System.out.println("Error!");
+            }
+                if (Character.isLetter(inputWord.charAt(i)) && Character.isLetter(keyWord.charAt(i))) {
+                    input += key;
+                    input = (input % 122) + 'a';
+                        if (input > 122) {
+                            input -= 96;
+                    }
+                encryptedWord.append((char) (input));
+            } else {
+                showMessage(2);
+            }
         }
         return encryptedWord.toString();
     }
-
-
 }
