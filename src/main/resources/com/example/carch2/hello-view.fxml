@@ -203,7 +203,7 @@
                               </TextField>
                               <Button mnemonicParsing="false" onAction="#generateButtonClick" prefHeight="28.0" text="Generate" />
                               <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" lineSpacing="5.0" mnemonicParsing="false" onAction="#gammaEncodeButtonClick" prefHeight="25.0" text="Encode" />
-                              <Button alignment="CENTER" onAction="#gammaDecodeButtonClick" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" text="Decode" />
+                              <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#gammaDecodeButtonClick" prefHeight="25.0" text="Decode" />
                               <Button mnemonicParsing="false" onAction="#inputCleaning" prefHeight="26.0" prefWidth="56.0" text="Clear" />
                               <TextField fx:id="gammingResult" editable="false" prefHeight="30.0" prefWidth="200.0" />
                            </children>
@@ -215,6 +215,28 @@
                         </Label>
                      </children>
                   </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Playfair cipher">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label contentDisplay="TOP" layoutX="163.0" layoutY="54.0" text="Playfair cipher">
+                           <font>
+                              <Font size="28.0" />
+                           </font></Label>
+                        <FlowPane hgap="10.0" layoutX="150.0" layoutY="115.0" prefWidth="200.0" vgap="5.0">
+                           <children>
+                              <TextField fx:id="playfairWord" prefHeight="30.0" prefWidth="200.0" promptText="Your word..." />
+                              <TextField fx:id="playfairKey" prefHeight="30.0" prefWidth="200.0" promptText="Key word..." />
+                              <Button defaultButton="true" mnemonicParsing="false" onAction="#playfairEncodeButton" prefHeight="25.0" text="Encode" />
+                              <Button mnemonicParsing="false" onAction="#playfairDecodeButton" prefHeight="25.0" text="Decode" />
+                              <Button mnemonicParsing="false" prefHeight="25.0" text="Clear" />
+                              <TextField fx:id="playfairResult" editable="false" prefHeight="30.0" prefWidth="200.0" promptText="Result" />
+                           </children>
+                        </FlowPane>
+                        <Button layoutX="356.0" layoutY="153.0" mnemonicParsing="false" onAction="#playfairMatrixGenerate" prefHeight="25.0" text="Generate" />
+                     </children></AnchorPane>
               </content>
             </Tab>
         </tabs>

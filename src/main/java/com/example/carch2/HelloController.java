@@ -1,11 +1,11 @@
 package com.example.carch2;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -29,8 +29,14 @@ public class HelloController {
             pairEncryptedArea,
             gammaWordField,
             gammaField,
-            gammingResult;
+            gammingResult,
+            playfairWord,
+            playfairKey,
+            playfairResult;
 
+
+    public final int x = 5;
+    int[][] randomMatrix = new int[x][x];
 
     public void initialize() {
         initWordLength.textProperty().bind(vegenreTextArea.textProperty()
@@ -230,7 +236,7 @@ public class HelloController {
     }
 
 
-    int concatenate(long[] array) {
+    public int concatenate(long[] array) {
         String str = Arrays.stream(array)
                 .mapToObj(String::valueOf)
                 .collect(Collectors.joining());
@@ -281,14 +287,27 @@ public class HelloController {
 
     public int toDecimal(int binary) {
         int[] digits = convertToArray(binary);
-        int temp, result = 0;
-        int power = convertToArray(binary).length - 1;
-        for (int digit : digits) {
-            temp = (int) Math.pow(digit * 2, power);
-            power--;
-            result += temp;
+        int result = 0;
+
+        for (int i = 0, j = digits.length - 1; i != digits.length; i++, j--) {
+            result += (digits[i]) * Math.pow(2, j);
         }
         return result;
+    }
+
+
+    public int keepInRange(int charIndex) {
+        int shift;
+        if (charIndex > 122) {
+            shift = charIndex % 122;
+            shift %= 26;
+            charIndex = (shift + 97);
+
+        } else if (charIndex < 97) {
+            shift = 97 - charIndex;
+            charIndex = 122 - shift;
+        }
+        return charIndex;
     }
 
     public int findBits(int x, int y) {
@@ -304,10 +323,11 @@ public class HelloController {
     public String gammaEncode(String unencoded, int num) {
         StringBuilder encoded = new StringBuilder();
         int[] array = convertToArray(num);
+        int newChar;
 
         for (int i = 0; i < unencoded.length(); i++) {
-            System.out.println(findBits(toBinary(unencoded.charAt(i)), toBinary(array[i])));
-            encoded.append((char) (toDecimal(findBits(toBinary(unencoded.charAt(i)), toBinary(array[i])))));
+            newChar = toDecimal(findBits(toBinary(unencoded.charAt(i)), toBinary(array[i])));
+            encoded.append((char) (keepInRange(newChar)));
         }
         System.out.println("\n");
         return encoded.toString();
@@ -318,10 +338,166 @@ public class HelloController {
         long[] newGamma = new long[word.length()];
 
         for (int i = 0; i < word.length(); i++) {
-            newGamma[i] = random.nextInt(1,9);
+            newGamma[i] = random.nextInt(2,9);
         }
 
         return concatenate(newGamma);
+    }
+
+    public ArrayList<Integer> defineIndexes(String slice) {
+        char index;
+        ArrayList<Integer> indexes = new ArrayList<>();
+
+        for (int z = 0; z < slice.length(); z++) {
+            index = slice.charAt(z);
+            for (int i = 0; i < x; i++) {
+                for (int j = 0; j < x; j++) {
+                    if (randomMatrix[i][j] == index) {
+                        indexes.add(i);
+                        indexes.add(j);
+                    }
+                }
+            }
+        }
+        return indexes;
+    }
+
+    public void printPrepared(int[][] matrix) {
+        char c;
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < x; j++) {
+                c = (char) matrix[i][j];
+                System.out.print(c + " ");
+            }
+            System.out.println("\t");
+        }
+    }
+
+    public String makeUnique(String notUnique) {
+        return notUnique.chars().
+                distinct().
+                collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+    }
+
+    public int[][] randomMatrix(String word) {
+        boolean check;
+        int index = 0;
+
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < x;) {
+                if (index < word.length()) {
+                    randomMatrix[i][j++] = word.charAt(index++);
+                } else {
+                    check = false;
+                    int randomValue = (int) (Math.random() * (123 - 97) + 97);
+                    for (int[] i1 : randomMatrix) {
+                        for (int j1 : i1) {
+                            if (j1 == randomValue) {
+                                check = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!check) {
+                        randomMatrix[i][j] = randomValue;
+                        j++;
+                    }
+                }
+            }
+        }
+        return randomMatrix;
+    }
+
+    public ArrayList<String> chunk(String word) {
+        ArrayList<String> strings = new ArrayList<>();
+        StringBuilder newString = new StringBuilder();
+
+        for (int i = 0; i < word.length(); i++) {
+            if (i == word.length() - 1) {
+                newString.append(word.charAt(i));
+            } else {
+                newString.append(word.charAt(i));
+                newString.append(word.charAt(++i));
+            }
+            strings.add(newString.toString());
+            newString = new StringBuilder();
+        }
+        return strings;
+    }
+
+    public String shiftReplacement(String slice, boolean encode) {
+        ArrayList<Integer> indexes = defineIndexes(slice);
+        StringBuilder encoded = new StringBuilder();
+        char c;
+
+        if (encode) {
+            for (int i = 0, j = 1; i < x - 1; i+=2, j+=2) {
+                if (Objects.equals(indexes.get(1), indexes.get(3))) {
+                    c = (char) randomMatrix[(indexes.get(i) + 1) % x][indexes.get(j)];
+                    encoded.append(c);
+                } else if (Objects.equals(indexes.get(0), indexes.get(2))) {
+                    c = (char) randomMatrix[indexes.get(i)][(indexes.get(j) + 1) % x];
+                    encoded.append(c);
+                }
+            }
+        } else {
+            for (int i = 0, j = 1; i < x - 1; i+=2, j+=2) {
+                if (Objects.equals(indexes.get(1), indexes.get(3))) {
+                    c = (char) randomMatrix[((indexes.get(i) + 5) - 1) % x][indexes.get(j)];
+                    encoded.append(c);
+                } else if (Objects.equals(indexes.get(0), indexes.get(2))) {
+                    c = (char) randomMatrix[indexes.get(i)][((indexes.get(j) + 5) - 1) % x];
+                    encoded.append(c);
+                }
+            }
+        }
+        return encoded.toString();
+    }
+
+    public String squareReplacement(ArrayList<Integer> integers) {
+        StringBuilder encoded = new StringBuilder(2);
+
+        int temp = integers.get(0);
+        int secondRow = integers.get(2);
+        char c;
+
+        integers.set(0, secondRow);
+        integers.set(2, temp);
+
+        for (int i = 2, j = 3; i > -1; i-=2, j-=2) {
+            c = (char) randomMatrix[integers.get(i)][integers.get(j)];
+            encoded.append(c);
+        }
+
+        System.out.println(integers);
+        return encoded.toString();
+    }
+
+    public char oneCharReplacement(ArrayList<Integer> indexes, boolean encode) {
+        if (encode) {
+            return (char) randomMatrix[((indexes.get(0) + 5) - 1) % x][indexes.get(1)];
+        } else {
+            return (char) randomMatrix[(indexes.get(0) + 1) % x][indexes.get(1)];
+        }
+    }
+
+    public String playfairEncode(String string, boolean encode) {
+        StringBuilder encoded = new StringBuilder();
+        ArrayList<Integer> indexes;
+        ArrayList<String> strings = chunk(string);
+
+        for (String s : strings) {
+            indexes = defineIndexes(s);
+            System.out.println(indexes);
+            if (s.length() == 1) {
+                encoded.append(oneCharReplacement(indexes, encode));
+            } else if (Objects.equals(indexes.get(0), indexes.get(2)) || Objects.equals(indexes.get(1), indexes.get(3))) {
+                encoded.append(shiftReplacement(s, encode));
+            } else {
+                encoded.append(squareReplacement(defineIndexes(s)));
+            }
+        }
+        return encoded.toString();
     }
 
     public void generateButtonClick() {
@@ -342,4 +518,15 @@ public class HelloController {
         gammingResult.setText("");
     }
 
+    public void playfairEncodeButton() {
+        playfairResult.setText(playfairEncode(playfairWord.getText().replaceAll("\\s", ""), true));
+    }
+
+    public void playfairDecodeButton() {
+        playfairResult.setText(playfairEncode(playfairResult.getText().replaceAll("\\s", ""), false));
+    }
+
+    public void playfairMatrixGenerate(){
+        printPrepared(randomMatrix(makeUnique(playfairKey.getText())));
+    }
 }
