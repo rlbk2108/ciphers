@@ -85,12 +85,13 @@ public class HelloController {
                     c = (char) (str.charAt(i) - shift);
                 }
                 if ((Character.isLowerCase(str.charAt(i)) && c > 'z')
-                        || (Character.isUpperCase(str.charAt(i)) && c > 'Z'))
+                        || (Character.isUpperCase(str.charAt(i)) && c > 'Z')) {
                     if (rightIsSelected) {
                         c = (char) (str.charAt(i) + shift);
                     } else {
                         c = (char) (str.charAt(i) - shift);
                     }
+                }
 
                 if (c + 0 > 122) {
                     c -= 26;
@@ -120,12 +121,13 @@ public class HelloController {
                 }
 
                 if ((Character.isLowerCase(str.charAt(i)) && c > 'z')
-                        || (Character.isUpperCase(str.charAt(i)) && c > 'Z'))
+                        || (Character.isUpperCase(str.charAt(i)) && c > 'Z')) {
                     if (rightIsSelected) {
                         c = (char) (str.charAt(i) - shift);
                     } else {
                         c = (char) (str.charAt(i) + shift);
                     }
+                }
 
                 if (c + 0 < 97) {
                     c += 26;
@@ -380,7 +382,8 @@ public class HelloController {
     }
 
     public int[][] randomMatrix(String word) {
-        boolean check;
+        randomMatrix = new int[x][x];
+        boolean check = false;
         int index = 0;
 
         for (int i = 0; i < x; i++) {
@@ -392,7 +395,7 @@ public class HelloController {
                     int randomValue = (int) (Math.random() * (123 - 97) + 97);
                     for (int[] i1 : randomMatrix) {
                         for (int j1 : i1) {
-                            if (j1 == randomValue) {
+                            if (j1 == randomValue || randomValue == 106) {
                                 check = true;
                                 break;
                             }
@@ -428,27 +431,25 @@ public class HelloController {
     public String shiftReplacement(String slice, boolean encode) {
         ArrayList<Integer> indexes = defineIndexes(slice);
         StringBuilder encoded = new StringBuilder();
-        char c;
+        char c = 0;
 
         if (encode) {
             for (int i = 0, j = 1; i < x - 1; i+=2, j+=2) {
                 if (Objects.equals(indexes.get(1), indexes.get(3))) {
                     c = (char) randomMatrix[(indexes.get(i) + 1) % x][indexes.get(j)];
-                    encoded.append(c);
                 } else if (Objects.equals(indexes.get(0), indexes.get(2))) {
                     c = (char) randomMatrix[indexes.get(i)][(indexes.get(j) + 1) % x];
-                    encoded.append(c);
                 }
+                encoded.append(c);
             }
         } else {
             for (int i = 0, j = 1; i < x - 1; i+=2, j+=2) {
                 if (Objects.equals(indexes.get(1), indexes.get(3))) {
                     c = (char) randomMatrix[((indexes.get(i) + 5) - 1) % x][indexes.get(j)];
-                    encoded.append(c);
                 } else if (Objects.equals(indexes.get(0), indexes.get(2))) {
                     c = (char) randomMatrix[indexes.get(i)][((indexes.get(j) + 5) - 1) % x];
-                    encoded.append(c);
                 }
+                encoded.append(c);
             }
         }
         return encoded.toString();
@@ -481,14 +482,26 @@ public class HelloController {
         }
     }
 
+    public String replace(String str) {
+        StringBuilder newStr = new StringBuilder();
+        char t;
+        for (int i = 0; i < str.length(); i++) {
+            t = str.charAt(i);
+            if (t == 106) t -= 1;
+            newStr.append(t);
+        }
+        return newStr.toString();
+    }
+
     public String playfairEncode(String string, boolean encode) {
         StringBuilder encoded = new StringBuilder();
         ArrayList<Integer> indexes;
         ArrayList<String> strings = chunk(string);
 
         for (String s : strings) {
+            s = replace(s);
             indexes = defineIndexes(s);
-            System.out.println(indexes);
+
             if (s.length() == 1) {
                 encoded.append(oneCharReplacement(indexes, encode));
             } else if (Objects.equals(indexes.get(0), indexes.get(2)) || Objects.equals(indexes.get(1), indexes.get(3))) {
