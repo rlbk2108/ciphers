@@ -239,6 +239,23 @@
                      </children></AnchorPane>
               </content>
             </Tab>
+            <Tab text="Four matrix">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <FlowPane hgap="8.0" layoutX="140.0" layoutY="135.0" prefWidth="220.0" vgap="8.0" AnchorPane.bottomAnchor="134.6" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="135.0">
+                           <children>
+                              <TextField prefHeight="30.0" prefWidth="220.0" promptText="Text..." />
+                              <Button defaultButton="true" mnemonicParsing="false" onAction="#fourMatrixGenerateButton" prefHeight="25.0" text="Generate" />
+                              <Button mnemonicParsing="false" prefHeight="25.0" text="Encode" />
+                              <Button mnemonicParsing="false" prefHeight="25.0" text="Decode" />
+                              <TextField prefHeight="30.0" prefWidth="220.0" promptText="[result]" />
+                           </children>
+                        </FlowPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>

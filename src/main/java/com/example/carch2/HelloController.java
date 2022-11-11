@@ -1,5 +1,6 @@
 package com.example.carch2;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -37,6 +38,12 @@ public class HelloController {
 
     public final int x = 5;
     int[][] randomMatrix = new int[x][x];
+
+    //four matrix variables
+    int[][] matrix1 = new int[x][x];
+    int[][] matrix2 = new int[x][x];
+    int[][] matrix3 = new int[x][x];
+    int[][] matrix4 = new int[x][x];
 
     public void initialize() {
         initWordLength.textProperty().bind(vegenreTextArea.textProperty()
@@ -541,5 +548,9 @@ public class HelloController {
 
     public void playfairMatrixGenerate(){
         printPrepared(randomMatrix(makeUnique(playfairKey.getText())));
+    }
+
+    public void fourMatrixGenerateButton() {
+
     }
 }
