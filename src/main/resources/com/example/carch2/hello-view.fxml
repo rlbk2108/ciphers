@@ -31,7 +31,7 @@
                      <children>
                         <FlowPane columnHalignment="CENTER" layoutX="102.0" layoutY="76.0" prefHeight="238.0" prefWidth="335.0">
                            <children>
-                              <Label fx:id="message" alignment="CENTER" contentDisplay="CENTER" prefHeight="34.0" prefWidth="334.0" textFill="RED" />
+                              <Label fx:id="message" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" prefHeight="34.0" prefWidth="334.0" textFill="RED" />
                               <TextField fx:id="decryptedTextArea" prefHeight="40.0" prefWidth="260.0" promptText="Type something...">
                                  <font>
                                     <Font size="14.0" />
@@ -243,7 +243,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="500.0">
                      <children>
-                        <GridPane fx:id="gridPaneFourth" gridLinesVisible="true" layoutX="252.0" layoutY="297.0" prefHeight="130.0" prefWidth="130.0">
+                        <GridPane fx:id="gridPaneFourth" alignment="CENTER" gridLinesVisible="true" layoutX="252.0" layoutY="299.0" prefHeight="130.0" prefWidth="130.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -259,7 +259,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                         </GridPane>
-                        <GridPane fx:id="gridPaneThird" gridLinesVisible="true" layoutX="118.0" layoutY="297.0" prefHeight="133.0" prefWidth="130.0">
+                        <GridPane fx:id="gridPaneThird" alignment="CENTER" gridLinesVisible="true" layoutX="118.0" layoutY="297.0" prefHeight="133.0" prefWidth="130.0">
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -275,7 +275,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />
                            </rowConstraints>
                         </GridPane>
-                        <GridPane fx:id="gridPaneFirst" gridLinesVisible="true" layoutX="118.0" layoutY="161.0" prefHeight="133.0" prefWidth="130.0">
+                        <GridPane fx:id="gridPaneFirst" alignment="CENTER" gridLinesVisible="true" layoutX="118.0" layoutY="161.0" prefHeight="133.0" prefWidth="130.0">
                           <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -291,7 +291,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" />
                            </rowConstraints>
                         </GridPane>
-                        <GridPane fx:id="gridPaneSecond" gridLinesVisible="true" layoutX="252.0" layoutY="161.0" prefHeight="130.0" prefWidth="130.0">
+                        <GridPane fx:id="gridPaneSecond" alignment="CENTER" gridLinesVisible="true" layoutX="252.0" layoutY="163.0" prefHeight="130.0" prefWidth="130.0">
                           <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -307,7 +307,7 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                         </GridPane>
-                        <FlowPane hgap="8.0" layoutX="141.0" layoutY="52.0" prefWidth="220.0" vgap="8.0" AnchorPane.bottomAnchor="217.6" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="139.0" AnchorPane.topAnchor="52.0">
+                        <FlowPane hgap="8.0" layoutX="141.0" layoutY="52.0" prefWidth="220.0" vgap="8.0" AnchorPane.bottomAnchor="300.0" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="139.0" AnchorPane.topAnchor="52.0">
                            <children>
                               <TextField fx:id="fourMatrixInput" prefHeight="30.0" prefWidth="210.0" promptText="Text..." />
                               <Button defaultButton="true" mnemonicParsing="false" onAction="#fourMatrixGenerateButton" prefHeight="25.0" text="Generate" />

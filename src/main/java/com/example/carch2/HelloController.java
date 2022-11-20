@@ -416,6 +416,9 @@ public class HelloController {
     public void printPrepared(ArrayList<int[][]> matrices, ArrayList<GridPane> grids) {
         char c;
         int[][] m;
+        grids.forEach(e -> e.setGridLinesVisible(false));
+        grids.forEach(pane -> pane.getChildren().clear());
+        grids.forEach(s -> s.setGridLinesVisible(true));
         GridPane grid;
         for (int f = 0; f < matrices.size(); f++) {
             System.out.println("Matrix " + (f + 1));
@@ -423,11 +426,13 @@ public class HelloController {
             grid = grids.get(f);
             for (int i = 0; i < x; i++) {
                 for (int j = 0; j < x; j++) {
-                    TextField tf = new TextField();
+                    Label ta = new Label();
                     c = (char) m[i][j];
                     System.out.print(c + " ");
-                    tf.setText(String.valueOf(c));
-                    grid.add(tf, j, i);
+                    ta.setAlignment(Pos.CENTER);
+                    ta.setContentDisplay(ContentDisplay.CENTER);
+                    ta.setText("   " + c);
+                    grid.add(ta, j, i);
                 }
                 System.out.println();
             }
