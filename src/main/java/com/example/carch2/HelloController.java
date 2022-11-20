@@ -2,7 +2,9 @@ package com.example.carch2;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +23,10 @@ public class HelloController {
     @FXML
     public Label initWordLength, keyWordLength, message, vegenreMessage, pairCipherLabel;
     @FXML
+    public TextArea firstMatrixInput;
+    @FXML
+    public GridPane gridPaneFirst, gridPaneSecond, gridPaneThird, gridPaneFourth;
+    @FXML
     private TextField encryptArea,
             decryptedTextArea,
             vegenreTextArea,
@@ -33,17 +39,25 @@ public class HelloController {
             gammingResult,
             playfairWord,
             playfairKey,
-            playfairResult;
+            playfairResult,
+            fourMatrixResult,
+            fourMatrixInput;
 
 
     public final int x = 5;
-    int[][] randomMatrix = new int[x][x];
 
-    //four matrix variables
+    //4th lab
+    int[][] singleRandomMatrix = new int[x][x];
+
+
+    //four matrix variables (5th lab)
+    ArrayList<int[][]> matrices = new ArrayList<>();
+    ArrayList<GridPane> grids = new ArrayList<>();
     int[][] matrix1 = new int[x][x];
     int[][] matrix2 = new int[x][x];
     int[][] matrix3 = new int[x][x];
     int[][] matrix4 = new int[x][x];
+
 
     public void initialize() {
         initWordLength.textProperty().bind(vegenreTextArea.textProperty()
@@ -53,6 +67,23 @@ public class HelloController {
         keyWordLength.textProperty().bind(vegenreKeyWord.textProperty()
                 .length()
                 .asString("%d"));
+
+        matrix1 = randomMatrix("");
+        matrix2 = randomMatrix("");
+        matrix3 = randomMatrix("");
+        matrix4 = randomMatrix("");
+
+
+        matrices.add(matrix1);
+        matrices.add(matrix2);
+        matrices.add(matrix3);
+        matrices.add(matrix4);
+
+        grids.add(gridPaneFirst);
+        grids.add(gridPaneSecond);
+        grids.add(gridPaneThird);
+        grids.add(gridPaneFourth);
+
     }
 
 
@@ -353,7 +384,7 @@ public class HelloController {
         return concatenate(newGamma);
     }
 
-    public ArrayList<Integer> defineIndexes(String slice) {
+    public ArrayList<Integer> defineIndexes(String slice, int[][] m) {
         char index;
         ArrayList<Integer> indexes = new ArrayList<>();
 
@@ -361,7 +392,7 @@ public class HelloController {
             index = slice.charAt(z);
             for (int i = 0; i < x; i++) {
                 for (int j = 0; j < x; j++) {
-                    if (randomMatrix[i][j] == index) {
+                    if (m[i][j] == index) {
                         indexes.add(i);
                         indexes.add(j);
                     }
@@ -382,6 +413,27 @@ public class HelloController {
         }
     }
 
+    public void printPrepared(ArrayList<int[][]> matrices, ArrayList<GridPane> grids) {
+        char c;
+        int[][] m;
+        GridPane grid;
+        for (int f = 0; f < matrices.size(); f++) {
+            System.out.println("Matrix " + (f + 1));
+            m = matrices.get(f);
+            grid = grids.get(f);
+            for (int i = 0; i < x; i++) {
+                for (int j = 0; j < x; j++) {
+                    TextField tf = new TextField();
+                    c = (char) m[i][j];
+                    System.out.print(c + " ");
+                    tf.setText(String.valueOf(c));
+                    grid.add(tf, j, i);
+                }
+                System.out.println();
+            }
+        }
+    }
+
     public String makeUnique(String notUnique) {
         return notUnique.chars().
                 distinct().
@@ -389,18 +441,20 @@ public class HelloController {
     }
 
     public int[][] randomMatrix(String word) {
-        randomMatrix = new int[x][x];
         boolean check = false;
         int index = 0;
+        int n = 0;
+        int[][] matrix = new int[x][x];
+
 
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < x;) {
                 if (index < word.length()) {
-                    randomMatrix[i][j++] = word.charAt(index++);
+                    matrix[i][j++] = word.charAt(index++);
                 } else {
                     check = false;
                     int randomValue = (int) (Math.random() * (123 - 97) + 97);
-                    for (int[] i1 : randomMatrix) {
+                    for (int[] i1 : matrix) {
                         for (int j1 : i1) {
                             if (j1 == randomValue || randomValue == 106) {
                                 check = true;
@@ -409,14 +463,15 @@ public class HelloController {
                         }
                     }
                     if (!check) {
-                        randomMatrix[i][j] = randomValue;
+                        matrix[i][j] = randomValue;
                         j++;
                     }
                 }
             }
         }
-        return randomMatrix;
+        return matrix;
     }
+
 
     public ArrayList<String> chunk(String word) {
         ArrayList<String> strings = new ArrayList<>();
@@ -436,25 +491,25 @@ public class HelloController {
     }
 
     public String shiftReplacement(String slice, boolean encode) {
-        ArrayList<Integer> indexes = defineIndexes(slice);
+        ArrayList<Integer> indexes = defineIndexes(slice, singleRandomMatrix);
         StringBuilder encoded = new StringBuilder();
         char c = 0;
 
         if (encode) {
             for (int i = 0, j = 1; i < x - 1; i+=2, j+=2) {
                 if (Objects.equals(indexes.get(1), indexes.get(3))) {
-                    c = (char) randomMatrix[(indexes.get(i) + 1) % x][indexes.get(j)];
+                    c = (char) singleRandomMatrix[(indexes.get(i) + 1) % x][indexes.get(j)];
                 } else if (Objects.equals(indexes.get(0), indexes.get(2))) {
-                    c = (char) randomMatrix[indexes.get(i)][(indexes.get(j) + 1) % x];
+                    c = (char) singleRandomMatrix[indexes.get(i)][(indexes.get(j) + 1) % x];
                 }
                 encoded.append(c);
             }
         } else {
             for (int i = 0, j = 1; i < x - 1; i+=2, j+=2) {
                 if (Objects.equals(indexes.get(1), indexes.get(3))) {
-                    c = (char) randomMatrix[((indexes.get(i) + 5) - 1) % x][indexes.get(j)];
+                    c = (char) singleRandomMatrix[((indexes.get(i) + 5) - 1) % x][indexes.get(j)];
                 } else if (Objects.equals(indexes.get(0), indexes.get(2))) {
-                    c = (char) randomMatrix[indexes.get(i)][((indexes.get(j) + 5) - 1) % x];
+                    c = (char) singleRandomMatrix[indexes.get(i)][((indexes.get(j) + 5) - 1) % x];
                 }
                 encoded.append(c);
             }
@@ -473,7 +528,7 @@ public class HelloController {
         integers.set(2, temp);
 
         for (int i = 2, j = 3; i > -1; i-=2, j-=2) {
-            c = (char) randomMatrix[integers.get(i)][integers.get(j)];
+            c = (char) singleRandomMatrix[integers.get(i)][integers.get(j)];
             encoded.append(c);
         }
 
@@ -483,9 +538,9 @@ public class HelloController {
 
     public char oneCharReplacement(ArrayList<Integer> indexes, boolean encode) {
         if (encode) {
-            return (char) randomMatrix[((indexes.get(0) + 5) - 1) % x][indexes.get(1)];
+            return (char) singleRandomMatrix[((indexes.get(0) + 5) - 1) % x][indexes.get(1)];
         } else {
-            return (char) randomMatrix[(indexes.get(0) + 1) % x][indexes.get(1)];
+            return (char) singleRandomMatrix[(indexes.get(0) + 1) % x][indexes.get(1)];
         }
     }
 
@@ -507,17 +562,74 @@ public class HelloController {
 
         for (String s : strings) {
             s = replace(s);
-            indexes = defineIndexes(s);
+            indexes = defineIndexes(s, singleRandomMatrix);
 
             if (s.length() == 1) {
                 encoded.append(oneCharReplacement(indexes, encode));
             } else if (Objects.equals(indexes.get(0), indexes.get(2)) || Objects.equals(indexes.get(1), indexes.get(3))) {
                 encoded.append(shiftReplacement(s, encode));
             } else {
-                encoded.append(squareReplacement(defineIndexes(s)));
+                encoded.append(squareReplacement(defineIndexes(s, singleRandomMatrix)));
             }
         }
         return encoded.toString();
+    }
+
+    public String fourMatrixEncodeMethod(String slice, boolean encode) {
+        char char1, char2;
+        StringBuilder result = new StringBuilder();
+        ArrayList<Integer> firstChar, secondChar;
+
+        if (encode) {
+            firstChar = defineIndexes(String.valueOf(slice.charAt(0)), matrix2);
+            secondChar = defineIndexes(String.valueOf(slice.charAt(1)), matrix3);
+            char1 = (char) matrix1[firstChar.get(0)][secondChar.get(1)];
+            char2 = (char) matrix4[secondChar.get(0)][firstChar.get(1)];
+        } else {
+            firstChar = defineIndexes(String.valueOf(slice.charAt(0)), matrix1);
+            secondChar = defineIndexes(String.valueOf(slice.charAt(1)), matrix4);
+            char1 = (char) matrix2[firstChar.get(0)][secondChar.get(1)];
+            char2 = (char) matrix3[secondChar.get(0)][firstChar.get(1)];
+        }
+
+        result.append(char1);
+        result.append(char2);
+
+        return result.toString();
+    }
+
+    public String fourMatrixOneCharEncode(String slice, boolean encode) {
+        char c;
+        StringBuilder singleChar = new StringBuilder();
+        ArrayList<Integer> indexes;
+
+        if (encode) {
+            indexes = defineIndexes(String.valueOf(slice.charAt(0)), matrix2);
+            c = (char) matrix3[(indexes.get(0) + 2) % 5][indexes.get(1)];
+        } else {
+            indexes = defineIndexes(String.valueOf(slice.charAt(0)), matrix3);
+            c = (char) matrix2[((indexes.get(0) + 5) - 2) % 5][indexes.get(1)];
+        }
+
+        singleChar.append(c);
+
+        return singleChar.toString();
+    }
+
+    public String fourMatrixEncode(String word, boolean encode) {
+        StringBuilder result = new StringBuilder();
+        ArrayList<String> slices = chunk(word);
+
+        for (String slice : slices) {
+            slice = replace(slice);
+
+            if (slice.length() == 1) {
+                result.append(fourMatrixOneCharEncode(slice, encode));
+            } else {
+                result.append(fourMatrixEncodeMethod(slice, encode));
+            }
+        }
+        return result.toString();
     }
 
     public void generateButtonClick() {
@@ -550,7 +662,26 @@ public class HelloController {
         printPrepared(randomMatrix(makeUnique(playfairKey.getText())));
     }
 
-    public void fourMatrixGenerateButton() {
+    public void fourMatrixEncodeButton() {
+        fourMatrixResult.setText(fourMatrixEncode(fourMatrixInput.getText(), true));
+    }
 
+    public void fourMatrixDecodeButton () {
+        fourMatrixResult.setText(fourMatrixEncode(fourMatrixResult.getText(), false));
+    }
+
+    public void fourMatrixGenerateButton() {
+        matrix1 = randomMatrix("");
+        matrix2 = randomMatrix("");
+        matrix3 = randomMatrix("");
+        matrix4 = randomMatrix("");
+
+        matrices.set(0, matrix1);
+        matrices.set(1, matrix2);
+        matrices.set(2, matrix3);
+        matrices.set(3, matrix4);
+        //firstMatrixInput.setText(String.valueOf(Arrays.deepToString(matrix1)));
+
+        printPrepared(matrices, grids);
     }
 }

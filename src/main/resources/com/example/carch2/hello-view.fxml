@@ -21,9 +21,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.carch2.HelloController">
+<Pane prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.carch2.HelloController">
    <children>
-      <TabPane prefHeight="400.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="500.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Ceaser cipher">
                <content>
@@ -241,15 +241,79 @@
             </Tab>
             <Tab text="Four matrix">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="500.0">
                      <children>
-                        <FlowPane hgap="8.0" layoutX="140.0" layoutY="135.0" prefWidth="220.0" vgap="8.0" AnchorPane.bottomAnchor="134.6" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="140.0" AnchorPane.topAnchor="135.0">
+                        <GridPane fx:id="gridPaneFourth" gridLinesVisible="true" layoutX="252.0" layoutY="297.0" prefHeight="130.0" prefWidth="130.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                        <GridPane fx:id="gridPaneThird" gridLinesVisible="true" layoutX="118.0" layoutY="297.0" prefHeight="133.0" prefWidth="130.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                           </rowConstraints>
+                        </GridPane>
+                        <GridPane fx:id="gridPaneFirst" gridLinesVisible="true" layoutX="118.0" layoutY="161.0" prefHeight="133.0" prefWidth="130.0">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                           </rowConstraints>
+                        </GridPane>
+                        <GridPane fx:id="gridPaneSecond" gridLinesVisible="true" layoutX="252.0" layoutY="161.0" prefHeight="130.0" prefWidth="130.0">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                        <FlowPane hgap="8.0" layoutX="141.0" layoutY="52.0" prefWidth="220.0" vgap="8.0" AnchorPane.bottomAnchor="217.6" AnchorPane.leftAnchor="141.0" AnchorPane.rightAnchor="139.0" AnchorPane.topAnchor="52.0">
                            <children>
-                              <TextField prefHeight="30.0" prefWidth="220.0" promptText="Text..." />
+                              <TextField fx:id="fourMatrixInput" prefHeight="30.0" prefWidth="210.0" promptText="Text..." />
                               <Button defaultButton="true" mnemonicParsing="false" onAction="#fourMatrixGenerateButton" prefHeight="25.0" text="Generate" />
-                              <Button mnemonicParsing="false" prefHeight="25.0" text="Encode" />
-                              <Button mnemonicParsing="false" prefHeight="25.0" text="Decode" />
-                              <TextField prefHeight="30.0" prefWidth="220.0" promptText="[result]" />
+                              <Button mnemonicParsing="false" onAction="#fourMatrixEncodeButton" prefHeight="25.0" text="Encode" />
+                              <Button mnemonicParsing="false" onAction="#fourMatrixDecodeButton" prefHeight="25.0" text="Decode" />
+                              <TextField fx:id="fourMatrixResult" editable="false" prefHeight="30.0" prefWidth="210.0" promptText="[result]" />
                            </children>
                         </FlowPane>
                      </children>
