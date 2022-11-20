@@ -448,7 +448,6 @@ public class HelloController {
     public int[][] randomMatrix(String word) {
         boolean check = false;
         int index = 0;
-        int n = 0;
         int[][] matrix = new int[x][x];
 
 
@@ -671,21 +670,15 @@ public class HelloController {
         fourMatrixResult.setText(fourMatrixEncode(fourMatrixInput.getText(), true));
     }
 
-    public void fourMatrixDecodeButton () {
+    public void fourMatrixDecodeButton() {
         fourMatrixResult.setText(fourMatrixEncode(fourMatrixResult.getText(), false));
     }
 
     public void fourMatrixGenerateButton() {
-        matrix1 = randomMatrix("");
-        matrix2 = randomMatrix("");
-        matrix3 = randomMatrix("");
-        matrix4 = randomMatrix("");
-
-        matrices.set(0, matrix1);
-        matrices.set(1, matrix2);
-        matrices.set(2, matrix3);
-        matrices.set(3, matrix4);
-        //firstMatrixInput.setText(String.valueOf(Arrays.deepToString(matrix1)));
+        matrices.set(0, matrix1 = randomMatrix(""));
+        matrices.set(1, matrix2 = randomMatrix(""));
+        matrices.set(2, matrix3 = randomMatrix(""));
+        matrices.set(3, matrix4 = randomMatrix(""));
 
         printPrepared(matrices, grids);
     }
