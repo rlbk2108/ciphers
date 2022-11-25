@@ -609,10 +609,10 @@ public class HelloController {
 
         if (encode) {
             indexes = defineIndexes(String.valueOf(slice.charAt(0)), matrix2);
-            c = (char) matrix3[(indexes.get(0) + 2) % 5][indexes.get(1)];
+            c = (char) matrix3[((indexes.get(0) + 5) - 2) % 5][indexes.get(1)];
         } else {
             indexes = defineIndexes(String.valueOf(slice.charAt(0)), matrix3);
-            c = (char) matrix2[((indexes.get(0) + 5) - 2) % 5][indexes.get(1)];
+            c = (char) matrix2[(indexes.get(0) + 2) % 5][indexes.get(1)];
         }
 
         singleChar.append(c);
